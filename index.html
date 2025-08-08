@@ -1,25 +1,58 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <title>TEST</title>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>We are the best at what we do</title>
+  <meta name="description" content="We are the best at what we do" />
   <style>
+    :root {
+      --bg: #000000;
+      --green: #00ff00;
+    }
     html, body {
       height: 100%;
-      margin: 0;
-      background-color: black;
-      display: flex;
-      align-items: center;
-      justify-content: center;
     }
-    .center-text {
-      color: green;
-      font-size: 5rem;
-      font-family: sans-serif;
+    body {
+      margin: 0;
+      background: var(--bg);
+      color: var(--green);
+      display: grid;
+      place-items: center;
+      font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+    }
+    .wrap {
+      text-align: center;
+      padding: 2rem;
+    }
+    h1 {
+      font-size: clamp(2rem, 6vw, 5rem);
+      line-height: 1.1;
+      margin: 0;
+      text-shadow: 0 0 6px rgba(0,255,0,0.6), 0 0 24px rgba(0,255,0,0.3);
+      letter-spacing: 0.02em;
+    }
+    .cursor {
+      display: inline-block;
+      width: 0.6ch;
+      background: var(--green);
+      margin-left: 0.1ch;
+      animation: blink 1s steps(1) infinite;
+      height: 1em;
+      transform: translateY(0.2em);
+    }
+    @keyframes blink {
+      50% { opacity: 0; }
+    }
+    /* Accessibility: prefers-reduced-motion */
+    @media (prefers-reduced-motion: reduce) {
+      .cursor { animation: none; }
     }
   </style>
 </head>
 <body>
-  <div class="center-text">TEST</div>
+  <main class="wrap" role="main" aria-label="Main content">
+    <h1>We are the best at what we do<span class="cursor" aria-hidden="true"></span></h1>
+  </main>
 </body>
 </html>
