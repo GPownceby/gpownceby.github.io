@@ -32,27 +32,11 @@
       text-shadow: 0 0 6px rgba(0,255,0,0.6), 0 0 24px rgba(0,255,0,0.3);
       letter-spacing: 0.02em;
     }
-    .cursor {
-      display: inline-block;
-      width: 0.6ch;
-      background: var(--green);
-      margin-left: 0.1ch;
-      animation: blink 1s steps(1) infinite;
-      height: 1em;
-      transform: translateY(0.2em);
-    }
-    @keyframes blink {
-      50% { opacity: 0; }
-    }
-    /* Accessibility: prefers-reduced-motion */
-    @media (prefers-reduced-motion: reduce) {
-      .cursor { animation: none; }
-    }
   </style>
 </head>
 <body>
   <main class="wrap" role="main" aria-label="Main content">
-    <h1>We are the best at what we do<span class="cursor" aria-hidden="true"></span></h1>
+    <h1>We are the best at what we do</h1>
   </main>
 </body>
 </html>
