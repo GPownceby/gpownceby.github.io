@@ -12,25 +12,35 @@
     }
     html, body {
       height: 100%;
+      display: flex;
+      flex-direction: column;
     }
     body {
       margin: 0;
       background: var(--bg);
       color: var(--green);
-      display: grid;
-      place-items: center;
       font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
     }
     .wrap {
       text-align: center;
       padding: 2rem;
+      flex: 1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
     }
     h1 {
-      font-size: clamp(2rem, 6vw, 5rem);
+      font-size: clamp(3rem, 8vw, 7rem);
       line-height: 1.1;
       margin: 0;
       text-shadow: 0 0 6px rgba(0,255,0,0.6), 0 0 24px rgba(0,255,0,0.3);
       letter-spacing: 0.02em;
+    }
+    footer {
+      text-align: center;
+      padding: 1rem;
+      font-size: 0.9rem;
+      text-shadow: 0 0 6px rgba(0,255,0,0.6), 0 0 24px rgba(0,255,0,0.3);
     }
   </style>
 </head>
@@ -38,5 +48,9 @@
   <main class="wrap" role="main" aria-label="Main content">
     <h1>We are the best at what we do</h1>
   </main>
+  <footer>
+    <div>Want to learn more? Email us: guy@phpresidualsolutions.com</div>
+    <div>&copy; 2025 PHP Residual Solutions. All rights reserved.</div>
+  </footer>
 </body>
 </html>
