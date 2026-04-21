@@ -1,65 +1,304 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>We are the best at what we do</title>
-  <meta name="description" content="We are the best at what we do" />
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Advanced analytics and financial management tools for finance professionals.">
+  <title>PHP Residual Solutions</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&display=swap">
   <style>
-    :root {
-      --bg: #000000;
-      --green: #00ff00;
+    *, *::before, *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
     }
+
     html, body {
       height: 100%;
+    }
+
+    body {
+      background: #0D0D0D;
+      color: #fff;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
       display: flex;
       flex-direction: column;
-    }
-    body {
-      margin: 0;
-      background: var(--bg);
-      color: var(--green);
-      font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
-    }
-    .wrap {
-      text-align: center;
-      padding: 2rem;
-      flex: 1;
-      display: flex;
       align-items: center;
       justify-content: center;
+      min-height: 100vh;
+      overflow-x: hidden;
     }
-    h1 {
-      font-size: clamp(3rem, 8vw, 7rem);
-      line-height: 1.1;
-      margin: 0;
-      text-shadow: 0 0 6px rgba(0,255,0,0.6), 0 0 24px rgba(0,255,0,0.3);
-      letter-spacing: 0.02em;
+
+    /* ── Background canvas ─────────────────────────────────── */
+    #bg {
+      position: fixed;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      z-index: 0;
+      pointer-events: none;
     }
-    footer1 {
+
+    /* ── Main content ──────────────────────────────────────── */
+    .content {
+      position: relative;
+      z-index: 10;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
       text-align: center;
-      padding: 1rem;
-      font-size: 1.1rem;
-      text-shadow: 0 0 6px rgba(0,255,0,0.6), 0 0 24px rgba(0,255,0,0.3);
+      padding: 48px 32px;
+      gap: 0;
     }
-    footer2 {
-      text-align: center;
-      padding: 1rem;
-      font-size: 0.8rem;
-      text-shadow: 0 0 6px rgba(0,255,0,0.6), 0 0 24px rgba(0,255,0,0.3);
+
+    /* ── Logo mark ─────────────────────────────────────────── */
+    .logo-wrap {
+      margin-bottom: 40px;
+    }
+
+    .logo-mark {
+      display: grid;
+      grid-template-columns: repeat(4, 18px);
+      grid-template-rows: repeat(4, 18px);
+      gap: 5px;
+      animation: markGlow 5s ease-in-out 2s infinite;
+    }
+
+    @keyframes markGlow {
+      0%, 100% { filter: drop-shadow(0 0 6px rgba(251,151,48,0.12)); }
+      50%       { filter: drop-shadow(0 0 22px rgba(251,151,48,0.30)); }
+    }
+
+    .cell {
+      border-radius: 2px;
+      opacity: 0;
+      transform: scale(0.6);
+      animation: cellIn 0.4s ease-out forwards;
+    }
+
+    @keyframes cellIn {
+      to { opacity: 1; transform: scale(1); }
+    }
+
+    /* Row 0 — dark, dark, orange@40%, orange */
+    .c0  { background: #2A2A2A;              animation-delay: 0.20s; }
+    .c1  { background: #2A2A2A;              animation-delay: 0.30s; }
+    .c2  { background: rgba(251,151,48,.40); animation-delay: 0.40s; }
+    .c3  { background: #FB9730;              animation-delay: 0.50s; }
+
+    /* Row 1 — dark, orange@50%, orange@80%, orange */
+    .c4  { background: #2A2A2A;              animation-delay: 0.30s; }
+    .c5  { background: rgba(251,151,48,.50); animation-delay: 0.40s; }
+    .c6  { background: rgba(251,151,48,.80); animation-delay: 0.50s; }
+    .c7  { background: #FB9730;              animation-delay: 0.60s; }
+
+    /* Row 2 — orange@30%, orange@70%, orange, blue */
+    .c8  { background: rgba(251,151,48,.30); animation-delay: 0.40s; }
+    .c9  { background: rgba(251,151,48,.70); animation-delay: 0.50s; }
+    .c10 { background: #FB9730;              animation-delay: 0.60s; }
+    .c11 { background: #5C91AB;              animation-delay: 0.70s; }
+
+    /* Row 3 — orange@80%, orange, blue@70%, blue */
+    .c12 { background: rgba(251,151,48,.80); animation-delay: 0.50s; }
+    .c13 { background: #FB9730;              animation-delay: 0.60s; }
+    .c14 { background: rgba(92,145,171,.70); animation-delay: 0.70s; }
+    .c15 { background: #5C91AB;              animation-delay: 0.80s; }
+
+    /* ── Wordmark ──────────────────────────────────────────── */
+    .wordmark {
+      opacity: 0;
+      animation: fadeUp 0.6s ease-out 0.95s forwards;
+    }
+
+    .wordmark-main {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: clamp(28px, 5.5vw, 60px);
+      font-weight: 700;
+      letter-spacing: -0.02em;
+      line-height: 1;
+      color: #fff;
+      white-space: nowrap;
+    }
+
+    /* ── Divider ───────────────────────────────────────────── */
+    .divider {
+      width: 0;
+      height: 1px;
+      background: #FB9730;
+      margin: 30px 0;
+      animation: divExpand 0.5s ease-out 1.35s forwards;
+    }
+
+    @keyframes divExpand {
+      to { width: 36px; }
+    }
+
+    /* ── Email ─────────────────────────────────────────────── */
+    .email-wrap {
+      opacity: 0;
+      animation: fadeUp 0.5s ease-out 1.55s forwards;
+    }
+
+    .email-link {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: clamp(11px, 1.6vw, 14px);
+      font-weight: 400;
+      color: #4A4A4A;
+      text-decoration: none;
+      letter-spacing: 0.01em;
+      transition: color 150ms ease-out;
+      position: relative;
+      display: inline-block;
+      padding-bottom: 3px;
+    }
+
+    .email-link::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 50%;
+      right: 50%;
+      height: 1px;
+      opacity: 0;
+      background: #FB9730;
+      animation: emailPulse 5s ease-in-out 2s infinite;
+    }
+
+    .email-link:hover {
+      color: #A0A0A0;
+    }
+
+    @keyframes emailPulse {
+      0%   { left: 50%; right: 50%; opacity: 0;   background: #FB9730; }
+      8%   { left: 50%; right: 50%; opacity: 1;   background: #FB9730; }
+      40%  { left: 0;   right: 0;   opacity: 1;   background: #FB9730; }
+      48%  { left: 0;   right: 0;   opacity: 0;   background: #FB9730; }
+      50%  { left: 50%; right: 50%; opacity: 0;   background: #5C91AB; }
+      58%  { left: 50%; right: 50%; opacity: 1;   background: #5C91AB; }
+      90%  { left: 0;   right: 0;   opacity: 1;   background: #5C91AB; }
+      98%  { left: 0;   right: 0;   opacity: 0;   background: #5C91AB; }
+      100% { left: 50%; right: 50%; opacity: 0;   background: #FB9730; }
+    }
+
+    /* ── Shared keyframes ──────────────────────────────────── */
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(10px); }
+      to   { opacity: 1; transform: translateY(0); }
     }
   </style>
 </head>
 <body>
-  <main class="wrap" role="main" aria-label="Main content">
-    <h1>We Are The Best At What We Do</h1>
+
+  <canvas id="bg"></canvas>
+
+  <main class="content">
+
+    <div class="logo-wrap">
+      <div class="logo-mark" aria-label="PHP Residual Solutions logo mark">
+        <div class="cell c0"></div>
+        <div class="cell c1"></div>
+        <div class="cell c2"></div>
+        <div class="cell c3"></div>
+        <div class="cell c4"></div>
+        <div class="cell c5"></div>
+        <div class="cell c6"></div>
+        <div class="cell c7"></div>
+        <div class="cell c8"></div>
+        <div class="cell c9"></div>
+        <div class="cell c10"></div>
+        <div class="cell c11"></div>
+        <div class="cell c12"></div>
+        <div class="cell c13"></div>
+        <div class="cell c14"></div>
+        <div class="cell c15"></div>
+      </div>
+    </div>
+
+    <div class="wordmark">
+      <div class="wordmark-main">PHP Residual Solutions</div>
+    </div>
+
+    <div class="divider" role="separator"></div>
+
+    <div class="email-wrap">
+      <a href="mailto:inquiries@phpresidualsolutions.com" class="email-link">
+        inquiries@phpresidualsolutions.com
+      </a>
+    </div>
+
   </main>
-  <footer1>
-    <div>Want to learn more? Email us: inquiries@phpresidualsolutions.com</div>
-    <div></div>
-  </footer1>
-  <footer2>
-    <div>&copy; 2025 PHP Residual Solutions. All rights reserved.</div>
-  </footer2>
+
+  <script>
+    (() => {
+      const canvas = document.getElementById('bg');
+      const ctx = canvas.getContext('2d');
+
+      const SPACING = 64;
+      const OR = [251, 151, 48];
+      const BL = [92, 145, 171];
+      const GR = [255, 255, 255];
+
+      let W, H, dots, raf;
+
+      function init() {
+        W = canvas.width  = window.innerWidth;
+        H = canvas.height = window.innerHeight;
+
+        dots = [];
+        const cols = Math.ceil(W / SPACING) + 2;
+        const rows = Math.ceil(H / SPACING) + 2;
+
+        for (let r = 0; r < rows; r++) {
+          for (let c = 0; c < cols; c++) {
+            const rnd = Math.random();
+            dots.push({
+              bx:    c * SPACING - SPACING / 2,
+              by:    r * SPACING - SPACING / 2,
+              phase: Math.random() * Math.PI * 2,
+              freq:  0.25 + Math.random() * 0.25,
+              color: rnd < 0.04 ? OR : rnd < 0.07 ? BL : GR,
+              accent: rnd < 0.07,
+            });
+          }
+        }
+      }
+
+      function draw(t) {
+        ctx.clearRect(0, 0, W, H);
+
+        for (const d of dots) {
+          const x = d.bx + Math.sin(t * d.freq * 0.001 + d.phase) * 5;
+          const y = d.by + Math.cos(t * d.freq * 0.0008 + d.phase * 1.3) * 5;
+          const pulse = (Math.sin(t * d.freq * 0.0018 + d.phase) + 1) / 2;
+          const alpha = d.accent
+            ? 0.04 + 0.08 * pulse
+            : 0.025 + 0.025 * pulse;
+
+          ctx.beginPath();
+          ctx.arc(x, y, 1.2, 0, Math.PI * 2);
+          ctx.fillStyle = `rgba(${d.color.join(',')},${alpha.toFixed(3)})`;
+          ctx.fill();
+        }
+      }
+
+      function tick(t) {
+        draw(t);
+        raf = requestAnimationFrame(tick);
+      }
+
+      init();
+      requestAnimationFrame(tick);
+
+      window.addEventListener('resize', () => {
+        cancelAnimationFrame(raf);
+        init();
+        requestAnimationFrame(tick);
+      });
+    })();
+  </script>
+
 </body>
 </html>
