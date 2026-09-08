@@ -185,8 +185,8 @@
     </p>
 
     <div class="actions">
-      <a class="btn btn-primary"
-         href="https://phpresidualsolutions.cloudflareaccess.com/cdn-cgi/access/logout">
+      <a class="btn btn-primary" id="signout"
+         href="https://dashboards.phpresidualsolutions.com/cdn-cgi/access/logout">
         Sign out and try another account
       </a>
       <a class="btn" href="mailto:inquiries@phpresidualsolutions.com?subject=Dashboard%20access">
@@ -195,11 +195,48 @@
     </div>
 
     <p class="footnote">
-      After signing out, return to
+      If you land back here, your browser is still signed in to the same Google
+      account. Opening
       <a href="https://dashboards.phpresidualsolutions.com">dashboards.phpresidualsolutions.com</a>
+      in a private window is the quickest way to sign in as someone else.
     </p>
 
   </main>
+
+  <script>
+    /* Signing out.
+
+       Cloudflare's logout endpoint clears the session but then shows its
+       own page, which has no way back. So the button clears the session
+       in the background and returns the visitor to the dashboard, where
+       they are asked to sign in again.
+
+       The link's href is the same endpoint, so if this script does not
+       run the button still logs them out - just with Cloudflare's page
+       at the end of it, which is where we started. */
+    (() => {
+      const signout = document.getElementById('signout');
+      if (!signout) return;
+
+      signout.addEventListener('click', async (event) => {
+        event.preventDefault();
+        signout.textContent = 'Signing out...';
+
+        try {
+          await fetch(signout.href, {
+            mode: 'no-cors',
+            credentials: 'include',
+            cache: 'no-store',
+          });
+        } catch {
+          /* Nothing useful to do. Send them on anyway: if the session
+             was not cleared they simply arrive back here. */
+        }
+
+        window.location.href = 'https://dashboards.phpresidualsolutions.com';
+      });
+    })();
+  </script>
 
   <script>
     (() => {
