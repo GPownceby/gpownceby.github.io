@@ -50,7 +50,7 @@
       flex-direction: column;
       align-items: center;
       text-align: center;
-      padding: 48px 32px;
+      padding: 48px 32px 72px;
       gap: 0;
     }
 
@@ -223,6 +223,44 @@
       }
     }
 
+    /* ── Legal footer ──────────────────────────────────────── */
+    .legal {
+      position: fixed;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      z-index: 20;
+      padding: 18px 24px;
+      text-align: center;
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 11px;
+      font-weight: 400;
+      letter-spacing: 0.04em;
+      color: #4A4A4A;
+      opacity: 0;
+      animation: fadeUp 0.5s ease-out 2.05s forwards;
+    }
+
+    .legal span {
+      white-space: nowrap;
+    }
+
+    .legal .sep {
+      margin: 0 10px;
+      color: #2A2A2A;
+    }
+
+    @media (max-width: 600px) {
+      .legal {
+        font-size: 10px;
+        padding: 14px 16px;
+      }
+
+      .legal .sep {
+        margin: 0 8px;
+      }
+    }
+
     /* ── Shared keyframes ──────────────────────────────────── */
     @keyframes fadeUp {
       from { opacity: 0; transform: translateY(10px); }
@@ -272,6 +310,10 @@
     </div>
 
   </main>
+
+  <footer class="legal">
+    <span>KvK 98064312</span><span class="sep" aria-hidden="true">·</span><span>VAT NL005318741B31</span>
+  </footer>
 
   <script>
     (() => {
