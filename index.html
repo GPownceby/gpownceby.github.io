@@ -316,18 +316,17 @@
   </footer>
 
   <script>
-    /* Sonar grid. A field of small faint dots whose colour drifts slowly
-       between orange and blue, in soft patches that move across the
-       page. One ring radiates out from the logo mark just after it
-       lands, and after that only a click or tap sends one, from wherever
-       it happened. The dots a ring passes over swell and light up in
-       orange or blue, alternating - the same rhythm as the underline
-       beneath the email address.
+    /* Sonar grid. A field of small faint dots, each swaying a little
+       about its grid point, whose colour drifts between orange and blue
+       in soft patches that move across the page. A click or tap sends a
+       ring out from wherever it happened; the dots it passes over swell
+       and light up in orange or blue, alternating - the same rhythm as
+       the underline beneath the email address.
 
-       No rings on their own after the opening one; PING_EVERY below turns
-       ambient rings back on if that ever changes. The colour drift runs
-       at a low frame rate while no ring is alive, pauses in a hidden
-       tab, and under prefers-reduced-motion is drawn once and left. */
+       Rings only ever come from the visitor; PING_EVERY below turns
+       ambient rings on if that ever changes. The drift and sway run at
+       a low frame rate while no ring is alive, pause in a hidden tab,
+       and under prefers-reduced-motion are drawn once and left. */
     (() => {
       const canvas = document.getElementById('bg');
       const ctx = canvas.getContext('2d');
@@ -338,15 +337,16 @@
       const REST_ALPHA   = 0.12;  // resting dot opacity
       const PEAK_ALPHA   = 0.85;  // dot opacity at the crest of a ring
       const TINT         = 0.75;  // how far a resting dot leans from grey toward its orange/blue (0 grey, 1 full colour)
-      const DRIFT_PERIOD = 14;    // s for a resting dot to go orange -> blue -> orange
-      const IDLE_FPS     = 24;    // frame rate of the colour drift while no ring is alive
-      const PING_EVERY   = 0;     // s between ambient rings; 0 means none - rings only on click, plus the opening one
+      const DRIFT_PERIOD = 7;     // s for a resting dot to go orange -> blue -> orange
+      const SWAY         = 2.5;   // px, how far a dot wanders from its grid point
+      const SWAY_PERIOD  = 16;    // s, roughly, for one wander; varies a little per dot
+      const IDLE_FPS     = 24;    // frame rate of the drift and sway while no ring is alive
+      const PING_EVERY   = 0;     // s between ambient rings; 0 means none - rings only on click or tap
       const SPEED        = 220;   // px/s the ring travels
       const RING_WIDTH   = 110;   // px, thickness of the wavefront
       const AMPLITUDE    = 1.5;   // how much a dot grows at the crest (0 none, 1 double, 2 triple); ~2.5px here
       const MAX_RINGS    = 5;     // oldest is dropped first
       const PING_AREA    = [0.1, 0.15, 0.9, 0.85]; // where ambient rings may start, as fractions of the viewport
-      const FIRST_PING   = 900;   // ms after load; when the logo mark has finished appearing
 
       const MAX_DPR = 2;
       const TAU     = Math.PI * 2;
@@ -404,10 +404,18 @@
         const hot = [];
         const paths = PALETTE.map(() => new Path2D());
         const tt = reduceMotion.matches ? 0 : (now / 1000) * (TAU / DRIFT_PERIOD);
+        const ts = reduceMotion.matches ? 0 : (now / 1000) * (TAU / SWAY_PERIOD);
         for (let i = 0; i < cols; i++) {
-          const cx = offsetX + i * SPACING;
+          const gx = offsetX + i * SPACING;
           for (let j = 0; j < rows; j++) {
-            const cy = offsetY + j * SPACING;
+            const gy = offsetY + j * SPACING;
+            /* Each dot wanders on its own small loop around its grid
+               point, at its own pace, so the field breathes rather than
+               rocking in unison. The pace and phase come from the grid
+               index, so a resize does not reshuffle them. */
+            const f = 0.8 + 0.4 * (((i * 73 + j * 151) % 17) / 17);
+            const cx = gx + Math.sin(ts * f + i * 1.7 + j * 2.3) * SWAY;
+            const cy = gy + Math.cos(ts * f * 0.8 + i * 2.1 + j * 1.3) * SWAY;
             let energy = 0;
             let color = null;
             for (const r of live) {
@@ -488,16 +496,6 @@
         }
       }
 
-      /* The opening ring, from the centre of the logo mark. */
-      function firstPing() {
-        if (reduceMotion.matches) return;
-        const mark = document.querySelector('.logo-mark');
-        const r = mark ? mark.getBoundingClientRect() : null;
-        addRing(r ? r.left + r.width / 2 : W / 2, r ? r.top + r.height / 2 : H / 2, performance.now());
-        nextPing = performance.now() + PING_EVERY * 1000;
-        wake();
-      }
-
       window.addEventListener('pointerdown', (e) => {
         if (reduceMotion.matches) return;
         if (e.target.closest('a, button')) return; // a click on a link is a click, not a ping
@@ -509,7 +507,6 @@
       reduceMotion.addEventListener('change', wake);
 
       resize();
-      setTimeout(firstPing, FIRST_PING);
       wake();
     })();
   </script>
